@@ -20,12 +20,20 @@
 ## Install
 ### Using git
 bash
-git clone https://github.com/DevKor-Team/devkor_hackathon_front
-cd devkor_hackathon_front
-npm install
-npm run dev
+git clone https://github.com/DevKor-Team/devkor_hackathon_back
+cd devkor_hackathon_back
+pip3 install -r requirements.txt
+cd devathon
+python3 manage.py runserver
+## Environment variables
+devkor_hackathon_back/.env에 환경변수 등록
+* SECRET_KEY
+* DB_NAME
+* DB_USERNAME
+* DB_PASSWORD
+* DB_HOST
 ## Related projects
-https://github.com/DevKor-Team/devkor_hackathon_back
+https://github.com/DevKor-Team/devkor_hackathon_front
 ## [License]()
 The MIT License (MIT)
 Copyright (c) 2021 DevKor 
