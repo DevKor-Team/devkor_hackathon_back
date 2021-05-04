@@ -19,14 +19,15 @@
 * markdown 파일을 중심으로 하는 데모 등륵 페이지
 ## Install
 ### Using git
-bash
+```bash
 git clone https://github.com/DevKor-Team/devkor_hackathon_back
 cd devkor_hackathon_back
 pip3 install -r requirements.txt
 cd devathon
 python3 manage.py runserver
+```
 ## Environment variables
-devkor_hackathon_back/.env에 환경변수 등록
+`devkor_hackathon_back/.env` 에 환경변수 등록
 * SECRET_KEY
 * DB_NAME
 * DB_USERNAME
