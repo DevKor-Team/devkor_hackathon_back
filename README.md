@@ -22,7 +22,6 @@
 ```bash
 git clone https://github.com/DevKor-Team/devkor_hackathon_back
 pre-commit install # for who wants to contribute
-cd devkor_hackathon_back
 pip3 install -r requirements.txt
 cd devathon
 python3 manage.py runserver
