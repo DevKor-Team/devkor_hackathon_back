@@ -18,7 +18,8 @@ module.exports = {
 				'revert',
 				'doc',
 				'style',
-				'misc'
+				'chore',
+				'perf'
 			]
 		],
 	}
