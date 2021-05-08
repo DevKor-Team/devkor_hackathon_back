@@ -49,6 +49,6 @@ class Team(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
-    team = models.ManyToManyField(Team, related_name="user_set", null=True)
+    team = models.ManyToManyField(Team, related_name="user_set")
     url = models.URLField(blank=True)
-    position = models.ManyToManyField(Position, related_name="user_set", null=True)
+    position = models.ManyToManyField(Position, related_name="user_set")
