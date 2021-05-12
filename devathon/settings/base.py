@@ -13,12 +13,23 @@ SECRET_KEY = os.getenv("SECRET_KRY")
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
+
+    "django.contrib.sites",  # for social login
+
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
     "account.apps.AccountConfig",
+
+    # allauth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+
+    # provider 구글, 페이스북, 카톡, 깃헙
+    "allauth.socialaccount.providers.google",
 ]
 
 MIDDLEWARE = [
@@ -85,3 +96,11 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of 'allauth'
+    "django.contrib.auth.backends.ModelBackend",
+    # 'allauth' specific authentication methods, such as login by email
+    "allauth.account.auth_backends.AuthenticationBackend", )
+SITE_ID = 1
+LOGIN_REDIRECT_URL = "/"
