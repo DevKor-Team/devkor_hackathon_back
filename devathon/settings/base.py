@@ -8,26 +8,22 @@ load_dotenv(dotenv_path=env_path)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = os.getenv("SECRET_KRY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
-
     "django.contrib.sites",  # for social login
-
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    # "account.apps.AccountConfig",
-
+    "accounts.apps.AccountsConfig",
     # allauth
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-
     # provider 구글, 페이스북, 카톡, 깃헙
     "allauth.socialaccount.providers.google",
 ]
@@ -101,6 +97,7 @@ AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of 'allauth'
     "django.contrib.auth.backends.ModelBackend",
     # 'allauth' specific authentication methods, such as login by email
-    "allauth.account.auth_backends.AuthenticationBackend", )
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
