@@ -29,6 +29,8 @@ python3 manage.py runserver
 ## Environment variables
 `devkor_hackathon_back/.env` 에 환경변수 등록
 * SECRET_KEY
+* GOOGLE_OAUTH_CLIENT_ID
+* GOOGLE_OAUTH_SECRET
 * DB_NAME
 * DB_USERNAME
 * DB_PASSWORD
