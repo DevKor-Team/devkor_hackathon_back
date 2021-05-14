@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from devathon.settings.base import SECRET_KEY
-from account.services import no_padding_b64encode, no_padding_b64decode
+from accounts.services import no_padding_b64encode, no_padding_b64decode
 
 
 User = get_user_model()
