@@ -4,13 +4,17 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.views import APIView
 from rest_framework import mixins
 
-from accounts.models import User
+from accounts.models import User, Profile
 from accounts.serializers import UserSerializer, ProfileSerializer
 
 
-class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin):
+class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.ListModelMixin):
+    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]  # TODO IsMyProfile
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
 
 
 class MeView(APIView):
