@@ -19,6 +19,7 @@ class Position(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=128, unique=True)
     token = models.CharField(max_length=128)
+    users = models.ManyToManyField(User, related_name="teams")
 
     def sign_token(self, timestamp: bytes):
         return sha256(self.name.encode() + timestamp + SECRET_KEY.encode()).digest()
@@ -49,6 +50,5 @@ class Team(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
-    team = models.ManyToManyField(Team, related_name="user_set")
     url = models.URLField(blank=True)
     position = models.ManyToManyField(Position, related_name="user_set")
