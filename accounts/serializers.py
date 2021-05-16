@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import User, Profile
+from accounts.models import User, Profile, Team
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -14,9 +14,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         return profile
 
 
-class UserSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
-
+class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
@@ -29,3 +27,15 @@ class UserSerializer(serializers.ModelSerializer):
             "last_login",
             "date_joined",
         ]
+
+
+class UserSerializer(UserListSerializer):
+    profile = ProfileSerializer()
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    users = UserListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Team
+        fields = ["id", "name", "users"]
