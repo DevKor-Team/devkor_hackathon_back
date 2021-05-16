@@ -7,6 +7,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         exclude = ["user"]
 
+    def create(self, validated_data):
+        user = self.context["request"].user
+        profile = Profile(**validated_data, user=user)
+        profile.save()
+        return profile
+
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
