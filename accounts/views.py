@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.views import APIView
-from rest_framework import mixins
+from rest_framework import decorators, mixins
 
 from accounts.models import User, Profile, Team
 from accounts.serializers import (
@@ -32,12 +32,34 @@ class TeamViewSet(ModelViewSet):
         "retreive": [],
         "update": [IsMyTeam],
         "destroy": [IsAdminUser],
+        "register": [IsAuthenticated],
+        "leave": [IsMyTeam],
     }
 
     def get_permissions(self):
         return [
             permission() for permission in self.permission_classes.get(self.action, [])
         ]
+
+    @decorators.action(methods=["POST"], detail=True)
+    def register(self, request):
+        team = self.get_object()
+        token = request.data.get("token")
+
+        success = team.verify_token(token)
+
+        if success:
+            request.user.teams.add(team)
+
+        return Response({"success": success})
+
+    @decorators.action(methods=["POST"], detail=True)
+    def leave(self, request):
+        try:
+            request.user.teams.remove(self.get_object())
+            return Response({"success": True})
+        except:
+            return Response({"success": False})
 
 
 class MeView(APIView):
