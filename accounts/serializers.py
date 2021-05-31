@@ -39,3 +39,11 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ["id", "name", "users"]
+
+
+class TeamTokenSerializer(serializers.ModelSerializer):
+    token = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Team
+        fields = ["id", "name", "token"]
