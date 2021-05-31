@@ -32,6 +32,7 @@ class TeamViewSet(ModelViewSet):
         "retreive": [],
         "update": [IsMyTeam],
         "destroy": [IsAdminUser],
+        "token": [IsMyTeam],
         "register": [IsAuthenticated],
         "leave": [IsMyTeam],
     }
@@ -84,5 +85,5 @@ class MyTeamView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        serializer = self.get_serializer(request.user.teams, many=True)
+        serializer = self.serializer_class(request.user.teams, many=True)
         return Response(serializer.data)
