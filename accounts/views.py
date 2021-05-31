@@ -8,7 +8,7 @@ from accounts.models import User, Profile, Team
 from accounts.serializers import UserSerializer, ProfileSerializer, TeamSerializer
 
 
-class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.ListModelMixin):
+class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.CreateModelMixin):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
