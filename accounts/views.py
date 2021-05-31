@@ -41,6 +41,12 @@ class TeamViewSet(ModelViewSet):
             permission() for permission in self.permission_classes.get(self.action, [])
         ]
 
+    @decorators.action(methods=["GET"], detail=True)
+    def token(self, request):  # celery로 주기적 업데이트?
+        team = self.get_object()
+        team.create_token()
+        return Response({"token": team.token})
+
     @decorators.action(methods=["POST"], detail=True)
     def register(self, request):
         team = self.get_object()
