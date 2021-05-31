@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.views import APIView
 from rest_framework import mixins
@@ -20,7 +20,18 @@ class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.CreateModel
 class TeamViewSet(ModelViewSet):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
-    permission_classes = [IsAuthenticated]  # TODO update: IsMyTeam, destroy: IsAdmin
+    permission_classes = {
+        "list": [],
+        "create": [IsAdminUser],
+        "retreive": [],
+        "update": [IsAuthenticated],  # IsMyTeam
+        "destroy": [IsAdminUser],
+    }
+
+    def get_permissions(self):
+        return [
+            permission() for permission in self.permission_classes.get(self.action, [])
+        ]
 
 
 class MeView(APIView):
