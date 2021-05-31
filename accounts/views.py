@@ -5,7 +5,13 @@ from rest_framework.views import APIView
 from rest_framework import mixins
 
 from accounts.models import User, Profile, Team
-from accounts.serializers import UserSerializer, ProfileSerializer, TeamSerializer
+from accounts.serializers import (
+    UserSerializer,
+    ProfileSerializer,
+    TeamSerializer,
+    TeamTokenSerializer,
+)
+from accounts.permissions import IsMyTeam
 
 
 class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.CreateModelMixin):
@@ -24,7 +30,7 @@ class TeamViewSet(ModelViewSet):
         "list": [],
         "create": [IsAdminUser],
         "retreive": [],
-        "update": [IsAuthenticated],  # IsMyTeam
+        "update": [IsMyTeam],
         "destroy": [IsAdminUser],
     }
 
@@ -41,4 +47,14 @@ class MeView(APIView):
 
     def get(self, request):
         serializer = self.serializer_class(request.user)
+        return Response(serializer.data)
+
+
+class MyTeamView(APIView):
+    queryset = Team.objects.all()
+    serializer_class = TeamTokenSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = self.get_serializer(request.user.teams, many=True)
         return Response(serializer.data)
