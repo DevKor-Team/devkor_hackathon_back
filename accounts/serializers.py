@@ -40,6 +40,13 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Team
         fields = ["id", "name", "users"]
 
+    def create(self, validated_data):
+        team = Team(**validated_data)
+        team.save()
+        team.users.add(self.context["request"].user)
+        team.save()
+        return team
+
 
 class TeamTokenSerializer(serializers.ModelSerializer):
     class Meta:
