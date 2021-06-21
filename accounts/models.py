@@ -18,7 +18,6 @@ class Position(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=128, unique=True)
-    token = models.CharField(max_length=128)
     users = models.ManyToManyField(User, related_name="teams")
 
     def sign_token(self, timestamp: bytes):
@@ -30,8 +29,7 @@ class Team(models.Model):
         expire = (timezone.now() + timedelta(hours=6)).timestamp()
         expire_bytes = int(expire).to_bytes(5, byteorder="little")
         sign = self.sign_token(expire_bytes)
-        self.token = no_padding_b64encode(expire_bytes + sign).decode()
-        self.save()
+        return no_padding_b64encode(expire_bytes + sign).decode()
 
     def verify_token(self, token):
         try:

@@ -32,7 +32,7 @@ class TeamViewSet(ModelViewSet):
         "retreive": [],
         "update": [IsMyTeam],
         "destroy": [IsAdminUser],
-        "token": [IsMyTeam],
+        "token": [IsMyTeam, IsAdminUser],
         "register": [IsAuthenticated],
         "leave": [IsMyTeam],
     }
