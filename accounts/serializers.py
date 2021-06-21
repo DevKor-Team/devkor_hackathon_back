@@ -46,9 +46,3 @@ class TeamSerializer(serializers.ModelSerializer):
         team.users.add(self.context["request"].user)
         team.save()
         return team
-
-
-class TeamTokenSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Team
-        fields = ["id", "name", "token"]

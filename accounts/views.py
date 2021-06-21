@@ -9,7 +9,6 @@ from accounts.serializers import (
     UserSerializer,
     ProfileSerializer,
     TeamSerializer,
-    TeamTokenSerializer,
 )
 from accounts.permissions import IsMyTeam
 
@@ -81,7 +80,7 @@ class MeView(APIView):
 
 class MyTeamView(APIView):
     queryset = Team.objects.all()
-    serializer_class = TeamTokenSerializer
+    serializer_class = TeamSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
