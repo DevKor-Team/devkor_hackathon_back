@@ -31,7 +31,7 @@ class TeamViewSet(ModelViewSet):
         "retreive": [],
         "update": [IsMyTeam],
         "destroy": [IsAdminUser],
-        "token": [IsMyTeam, IsAdminUser],
+        "token": [IsMyTeam | IsAdminUser],
         "register": [IsAuthenticated],
         "leave": [IsMyTeam],
     }
@@ -42,13 +42,13 @@ class TeamViewSet(ModelViewSet):
         ]
 
     @decorators.action(methods=["GET"], detail=True)
-    def token(self, request):  # celery로 주기적 업데이트?
+    def token(self, request, pk=None):
         team = self.get_object()
-        team.create_token()
-        return Response({"token": team.token})
+        token = team.create_token()
+        return Response({"token": token})
 
     @decorators.action(methods=["POST"], detail=True)
-    def register(self, request):
+    def register(self, request, pk=None):
         team = self.get_object()
         token = request.data.get("token")
 
@@ -60,7 +60,7 @@ class TeamViewSet(ModelViewSet):
         return Response({"success": success})
 
     @decorators.action(methods=["POST"], detail=True)
-    def leave(self, request):
+    def leave(self, request, pk=None):
         try:
             request.user.teams.remove(self.get_object())
             return Response({"success": True})
