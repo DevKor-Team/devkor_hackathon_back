@@ -42,8 +42,6 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class TeamTokenSerializer(serializers.ModelSerializer):
-    token = serializers.ReadOnlyField()
-
     class Meta:
         model = Team
         fields = ["id", "name", "token"]
