@@ -12,10 +12,6 @@ from accounts.services import no_padding_b64encode, no_padding_b64decode
 User = get_user_model()
 
 
-class Position(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-
-
 class Team(models.Model):
     name = models.CharField(max_length=128, unique=True)
     users = models.ManyToManyField(User, related_name="teams")
@@ -52,4 +48,7 @@ class Team(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     url = models.URLField(blank=True)
-    position = models.ManyToManyField(Position, related_name="user_set")
+    position = models.CharField(max_length=128, default="developer", blank=True)
+    bio = models.TextField(
+        default="The best developer in the infinite universe.", blank=True
+    )
