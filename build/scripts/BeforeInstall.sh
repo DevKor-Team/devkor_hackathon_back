@@ -1,2 +1,2 @@
 rm -rf /home/ec2-user/hackathon/back
-docker stop rabbitmq || true && docker rm rabbitmq || true
+docker stop hackathon-back || true && docker rmi hackathon-back || true
