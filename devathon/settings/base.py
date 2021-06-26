@@ -47,7 +47,20 @@ SOCIALACCOUNT_PROVIDERS = {
             "client_id": os.getenv("GOOGLE_OAUTH_CLIENT_ID"),
             "secret": os.getenv("GOOGLE_OAUTH_SECRET"),
             "key": "",
-        }
+        },
+        "FIELDS": [
+            "id",
+            "email",
+            "name",
+            "first_name",
+            "last_name",
+            "verified",
+            "locale",
+            "timezone",
+            "link",
+            "gender",
+            "updated_time",
+        ],
     }
 }
 
