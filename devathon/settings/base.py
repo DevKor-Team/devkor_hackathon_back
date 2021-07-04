@@ -24,8 +24,10 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    # provider 구글, 페이스북, 카톡, 깃헙
+    # provider google
     "allauth.socialaccount.providers.google",
+    # tag
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +128,7 @@ AUTHENTICATION_BACKENDS = (
 )
 SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
