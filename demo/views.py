@@ -1,3 +1,22 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework import decorators, mixins
 
-# Create your views here.
+from .models import Demo
+from .serializers import (
+    DemoSerializer,
+)
+from accounts.permissions import IsMyTeam
+
+
+class DemoViewSet(ModelViewSet):
+    queryset = Demo.objects.all()
+    serializer_class = DemoSerializer
+    permission_classes = {
+        "list": [],
+        "create": [IsAdminUser],
+        "retreive": [],
+        "update": [IsMyTeam],
+        "destroy": [IsAdminUser],
+    }
