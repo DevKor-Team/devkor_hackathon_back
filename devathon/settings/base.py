@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     # tag
     'taggit',
+    'demo.apps.DemoConfig',
 ]
 
 MIDDLEWARE = [
