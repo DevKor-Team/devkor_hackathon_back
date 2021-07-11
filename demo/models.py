@@ -1,5 +1,5 @@
 from django.db import models
-from .models import Team
+from accounts.models import Team
 from taggit.managers import TaggableManager
 from taggit.models import (
     TagBase, TaggedItemBase
