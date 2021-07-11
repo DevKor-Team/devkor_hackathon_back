@@ -1,16 +1,17 @@
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from rest_framework import decorators, mixins
 
 from .models import Demo
-from .serializers import (
-    DemoSerializer,
-)
+from .serializers import DemoSerializer
+from .filters import DemoFilter
+from .paginations import DemoPagination
 from accounts.permissions import IsMyTeam
 
 
 class DemoViewSet(ModelViewSet):
+    pagination_class = DemoPagination
+    filterset_class = DemoFilter
     queryset = Demo.objects.all()
     serializer_class = DemoSerializer
     permission_classes = {
