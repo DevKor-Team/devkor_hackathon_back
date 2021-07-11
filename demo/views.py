@@ -15,8 +15,13 @@ class DemoViewSet(ModelViewSet):
     serializer_class = DemoSerializer
     permission_classes = {
         "list": [],
-        "create": [IsAdminUser],
+        "create": [IsMyTeam | IsAdminUser],
         "retreive": [],
         "update": [IsMyTeam],
-        "destroy": [IsAdminUser],
+        "destroy": [IsMyTeam | IsAdminUser],
     }
+
+    def get_permissions(self):
+        return [
+            permission() for permission in self.permission_classes.get(self.action, [])
+        ]
