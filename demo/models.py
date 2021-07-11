@@ -59,9 +59,9 @@ class Demo(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     tech_stacks = TaggableManager(
         blank=True,
-        through=TaggedDemo,
+        through=TechStackTaggedDemo,
     )
     tags = TaggableManager(
         blank=True,
-        through=TechStackTaggedDemo,
+        through=TaggedDemo,
     )
