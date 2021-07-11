@@ -1,6 +1,5 @@
 from django.db import models
-from django.utils import timezone
-from accounts.models import Team
+from .models import Team
 from taggit.managers import TaggableManager
 from taggit.models import (
     TagBase, TaggedItemBase
@@ -15,9 +14,6 @@ class Tag(TagBase):
         allow_unicode=True,
     )
 
-    def slugify(self, tag, i=None):
-        return default_slugify(tag, allow_unicode=True)
-
 
 class TechStackTag(TagBase):
     # NOTE: django-taggit does not allow unicode by default.
@@ -26,9 +22,6 @@ class TechStackTag(TagBase):
         max_length=128,
         allow_unicode=True,
     )
-
-    def slugify(self, tag, i=None):
-        return default_slugify(tag, allow_unicode=True)
 
 
 class TaggedDemo(TaggedItemBase):
@@ -64,7 +57,7 @@ class Demo(models.Model):
     desc = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tech_stack = TaggableManager(
+    tech_stacks = TaggableManager(
         blank=True,
         through=TaggedDemo,
     )
