@@ -24,11 +24,11 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    # provider google
-    "allauth.socialaccount.providers.google",
-    # tag
-    'taggit',
-    'demo.apps.DemoConfig',
+    "allauth.socialaccount.providers.google",  # provider google
+    "taggit",  # tag
+    "taggit_serializer",
+    "demo.apps.DemoConfig",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -103,6 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+    ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend"
     ]
 }
 
