@@ -37,11 +37,4 @@ class DemoFilter(filters.FilterSet):
 
     class Meta:
         model = Demo
-        fields = {
-            "created_at": [
-            ],
-            "tags": [
-            ],
-            "tech_stacks": [
-            ],
-        }
+        fields = {}
