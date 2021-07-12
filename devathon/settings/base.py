@@ -24,8 +24,11 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    # provider 구글, 페이스북, 카톡, 깃헙
-    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.google",  # provider google
+    "taggit",  # tag
+    "taggit_serializer",
+    "demo.apps.DemoConfig",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -100,7 +103,12 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
-    ]
+    ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend"
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100
 }
 
 LANGUAGE_CODE = "en-us"
@@ -126,3 +134,7 @@ AUTHENTICATION_BACKENDS = (
 )
 SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
