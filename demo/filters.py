@@ -8,7 +8,7 @@ class DemoFilter(filters.FilterSet):
     year = filters.NumberFilter(
         field_name="created_at",
         label="연도",
-        method="get_year"
+        lookup_expr="year"
     )
 
     tag = filters.CharFilter(
@@ -20,12 +20,6 @@ class DemoFilter(filters.FilterSet):
         field_name="tech_stacks",
         method="get_tech_stack"
     )
-
-    @staticmethod
-    def get_year(queryset, name, value):
-        return queryset.filter(
-            created_at__year=value
-        )
 
     @staticmethod
     def get_tag(queryset, name, value):
