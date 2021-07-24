@@ -6,8 +6,7 @@ from .models import Demo, DemoImage
 from .serializers import DemoCreateSerializer, DemoImageSerializer, DemoSerializer
 from .filters import DemoFilter
 from .paginations import DemoPagination
-from .permissions import IsImageOfMyDemo
-from accounts.permissions import IsTeamLeader
+from .permissions import IsImageOfMyDemo, IsDemoTeamLeader
 
 
 class DemoViewSet(ModelViewSet):
@@ -20,10 +19,10 @@ class DemoViewSet(ModelViewSet):
     }
     permission_classes = {
         "list": [],
-        "create": [IsTeamLeader | IsAdminUser],
+        "create": [],
         "retreive": [],
-        "update": [IsTeamLeader],
-        "destroy": [IsTeamLeader | IsAdminUser],
+        "update": [IsDemoTeamLeader],
+        "destroy": [IsDemoTeamLeader | IsAdminUser],
     }
 
     def get_permissions(self):
