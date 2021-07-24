@@ -51,7 +51,7 @@ class TechStackTaggedDemo(TaggedItemBase):
 class Demo(models.Model):
     team = models.OneToOneField(Team, on_delete=models.CASCADE, unique=True)
     title = models.CharField(max_length=128)
-    sub_title = models.CharField(max_length=128)
+    sub_title = models.CharField(max_length=128, null=True)
     thumbnail = models.ImageField(upload_to="images/")
     desc = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
