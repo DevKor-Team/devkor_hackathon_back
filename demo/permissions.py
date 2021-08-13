@@ -13,3 +13,9 @@ class IsDemoTeamLeader(permissions.BasePermission):
         if request.user.is_authenticated:
             return obj.team.leader == request.user
         return False
+
+class IsCommentWriter(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_authenticated:
+            return obj.writer == request.user
+        return False
