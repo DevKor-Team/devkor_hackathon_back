@@ -35,10 +35,11 @@ class UserSerializer(UserListSerializer):
 
 class TeamSerializer(serializers.ModelSerializer):
     users = UserListSerializer(many=True, read_only=True)
+    leader = UserSerializer()
 
     class Meta:
         model = Team
-        fields = ["id", "name", "users"]
+        fields = ["id", "name", "users", "leader"]
 
     def create(self, validated_data):
         team = Team(**validated_data)

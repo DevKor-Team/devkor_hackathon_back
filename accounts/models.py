@@ -15,7 +15,9 @@ User = get_user_model()
 class Team(models.Model):
     name = models.CharField(max_length=128, unique=True)
     users = models.ManyToManyField(User, related_name="teams")
-    leader=models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
+    leader = models.ForeignKey(
+        User, related_name="leader_teams", on_delete=models.SET_NULL, null=True
+    )
 
     def sign_token(self, timestamp: bytes):
         return sha256(

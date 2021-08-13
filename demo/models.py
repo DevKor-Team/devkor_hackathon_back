@@ -1,9 +1,7 @@
 from django.db import models
 from accounts.models import Team
 from taggit.managers import TaggableManager
-from taggit.models import (
-    TagBase, TaggedItemBase
-)
+from taggit.models import TagBase, TaggedItemBase
 
 
 class Tag(TagBase):
@@ -26,12 +24,12 @@ class TechStackTag(TagBase):
 
 class TaggedDemo(TaggedItemBase):
     content_object = models.ForeignKey(
-        'Demo',
+        "Demo",
         on_delete=models.CASCADE,
     )
 
     tag = models.ForeignKey(
-        'Tag',
+        "Tag",
         related_name="%(app_label)s_%(class)s_items",
         on_delete=models.CASCADE,
     )
@@ -39,12 +37,12 @@ class TaggedDemo(TaggedItemBase):
 
 class TechStackTaggedDemo(TaggedItemBase):
     content_object = models.ForeignKey(
-        'Demo',
+        "Demo",
         on_delete=models.CASCADE,
     )
 
     tag = models.ForeignKey(
-        'TechStackTag',
+        "TechStackTag",
         related_name="%(app_label)s_%(class)s_items",
         on_delete=models.CASCADE,
     )
@@ -53,7 +51,8 @@ class TechStackTaggedDemo(TaggedItemBase):
 class Demo(models.Model):
     team = models.OneToOneField(Team, on_delete=models.CASCADE, unique=True)
     title = models.CharField(max_length=128)
-    thumbnail = models.ImageField(upload_to='images/')
+    sub_title = models.CharField(max_length=128, null=True)
+    thumbnail = models.ImageField(upload_to="images/")
     desc = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -65,3 +64,8 @@ class Demo(models.Model):
         blank=True,
         through=TaggedDemo,
     )
+
+
+class DemoImage(models.Model):
+    demo = models.ForeignKey(Demo, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="images/")
