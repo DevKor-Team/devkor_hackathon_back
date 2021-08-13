@@ -1,14 +1,21 @@
 from rest_framework import serializers
 from taggit_serializer.serializers import TagListSerializerField, TaggitSerializer
-from .models import Demo, DemoImage
+from .models import Comment, Demo, DemoImage
 from accounts.serializers import TeamSerializer
 from accounts.models import Team
 
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields="__all__"
+        read_only_fields = ["id", "created_at", "updated_at"]
 
 class DemoSerializer(TaggitSerializer, serializers.ModelSerializer):
     tech_stacks = TagListSerializerField()
     tags = TagListSerializerField()
     team = TeamSerializer(read_only=True)
+    comments= CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Demo
