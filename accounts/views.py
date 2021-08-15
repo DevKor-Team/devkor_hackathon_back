@@ -4,6 +4,8 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.views import APIView
 from rest_framework import decorators, mixins
 
+from devathon.mixins import ActionPermission
+
 from accounts.models import User, Profile, Team
 from accounts.serializers import (
     UserSerializer,
@@ -22,7 +24,7 @@ class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.CreateModel
         return self.queryset.filter(user=self.request.user)
 
 
-class TeamViewSet(ModelViewSet):
+class TeamViewSet(ModelViewSet, ActionPermission):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
     permission_classes = {
@@ -35,11 +37,6 @@ class TeamViewSet(ModelViewSet):
         "register": [IsAuthenticated],
         "leave": [IsMyTeam],
     }
-
-    def get_permissions(self):
-        return [
-            permission() for permission in self.permission_classes.get(self.action, [])
-        ]
 
     @decorators.action(methods=["GET"], detail=True)
     def token(self, request, pk=None):

@@ -70,9 +70,27 @@ class DemoImage(models.Model):
     demo = models.ForeignKey(Demo, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images/")
 
+
 class Comment(models.Model):
     writer = models.ForeignKey(User, related_name="comments", on_delete=models.PROTECT)
     demo = models.ForeignKey(Demo, related_name="comments", on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class EmojiTypes(models.TextChoices):
+    LIKE = "LK", "좋아요"
+    WOW = "WW", "놀라워요"
+    FIRE = "FR", "불"
+    FUN = "FN", "웃겨요"
+    SAD = "SD", "슬퍼요"
+
+
+class Emoji(models.Model):
+    writer = models.ForeignKey(User, related_name="emojis", on_delete=models.PROTECT)
+    demo = models.ForeignKey(Demo, related_name="emojis", on_delete=models.CASCADE)
+    typ = models.CharField(
+        max_length=2, choices=EmojiTypes.choices, default=EmojiTypes.LIKE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)

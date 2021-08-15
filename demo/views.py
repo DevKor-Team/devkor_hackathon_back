@@ -2,14 +2,27 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Demo, DemoImage, Comment
-from .serializers import DemoCreateSerializer, DemoImageSerializer, DemoSerializer, CommentSerializer
+from devathon.mixins import ActionPermission, ActionSerializer
+
+from .models import Demo, DemoImage, Comment, Emoji
+from .serializers import (
+    DemoCreateSerializer,
+    DemoImageSerializer,
+    DemoSerializer,
+    CommentSerializer,
+    EmojiSerializer,
+)
 from .filters import DemoFilter
 from .paginations import DemoPagination
-from .permissions import IsImageOfMyDemo, IsDemoTeamLeader, IsCommentWriter
+from .permissions import (
+    IsEmojiWriter,
+    IsImageOfMyDemo,
+    IsDemoTeamLeader,
+    IsCommentWriter,
+)
 
 
-class DemoViewSet(ModelViewSet):
+class DemoViewSet(ModelViewSet, ActionPermission, ActionSerializer):
     pagination_class = DemoPagination
     filterset_class = DemoFilter
     queryset = Demo.objects.all()
@@ -25,14 +38,6 @@ class DemoViewSet(ModelViewSet):
         "destroy": [IsDemoTeamLeader | IsAdminUser],
     }
 
-    def get_permissions(self):
-        return [
-            permission() for permission in self.permission_classes.get(self.action, [])
-        ]
-
-    def get_serializer_class(self):
-        return self.serializer_classes.get(self.action, self.serializer_class)
-
 
 class DemoImageView(CreateAPIView):
     queryset = DemoImage.objects.all()
@@ -40,7 +45,8 @@ class DemoImageView(CreateAPIView):
     permission_classes = [IsImageOfMyDemo]
     lookup_field = "id"
 
-class CommentViewSet(ModelViewSet):
+
+class CommentViewSet(ModelViewSet, ActionPermission):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = {
@@ -51,7 +57,14 @@ class CommentViewSet(ModelViewSet):
         "destroy": [IsCommentWriter],
     }
 
-    def get_permissions(self):
-        return [
-            permission() for permission in self.permission_classes.get(self.action, [])
-        ]
+
+class EmojiViewSet(ModelViewSet, ActionPermission):
+    queryset = Emoji.objects.all()
+    serializer_class = EmojiSerializer
+    permission_classes = {
+        "list": [],
+        "create": [],
+        "retreive": [],
+        "update": [IsEmojiWriter],
+        "destroy": [IsEmojiWriter],
+    }
