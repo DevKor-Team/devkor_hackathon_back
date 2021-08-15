@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Team
+from accounts.models import Team, User
 from taggit.managers import TaggableManager
 from taggit.models import TagBase, TaggedItemBase
 
@@ -51,7 +51,7 @@ class TechStackTaggedDemo(TaggedItemBase):
 class Demo(models.Model):
     team = models.OneToOneField(Team, on_delete=models.CASCADE, unique=True)
     title = models.CharField(max_length=128)
-    sub_title = models.CharField(max_length=128, null=True)
+    sub_title = models.CharField(max_length=128, null=True, blank=True)
     thumbnail = models.ImageField(upload_to="images/")
     desc = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,3 +69,10 @@ class Demo(models.Model):
 class DemoImage(models.Model):
     demo = models.ForeignKey(Demo, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images/")
+
+class Comment(models.Model):
+    writer = models.ForeignKey(User, related_name="comments", on_delete=models.PROTECT)
+    demo = models.ForeignKey(Demo, related_name="comments", on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
