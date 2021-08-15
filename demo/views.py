@@ -2,11 +2,22 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Demo, DemoImage, Comment
-from .serializers import DemoCreateSerializer, DemoImageSerializer, DemoSerializer, CommentSerializer
+from .models import Demo, DemoImage, Comment, Emoji
+from .serializers import (
+    DemoCreateSerializer,
+    DemoImageSerializer,
+    DemoSerializer,
+    CommentSerializer,
+    EmojiSerializer,
+)
 from .filters import DemoFilter
 from .paginations import DemoPagination
-from .permissions import IsImageOfMyDemo, IsDemoTeamLeader, IsCommentWriter
+from .permissions import (
+    IsEmojiWriter,
+    IsImageOfMyDemo,
+    IsDemoTeamLeader,
+    IsCommentWriter,
+)
 
 
 class DemoViewSet(ModelViewSet):
@@ -40,6 +51,7 @@ class DemoImageView(CreateAPIView):
     permission_classes = [IsImageOfMyDemo]
     lookup_field = "id"
 
+
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -49,6 +61,23 @@ class CommentViewSet(ModelViewSet):
         "retreive": [],
         "update": [IsCommentWriter],
         "destroy": [IsCommentWriter],
+    }
+
+    def get_permissions(self):
+        return [
+            permission() for permission in self.permission_classes.get(self.action, [])
+        ]
+
+
+class EmojiViewSet(ModelViewSet):
+    queryset = Emoji.objects.all()
+    serializer_class = EmojiSerializer
+    permission_classes = {
+        "list": [],
+        "create": [],
+        "retreive": [],
+        "update": [IsEmojiWriter],
+        "destroy": [IsEmojiWriter],
     }
 
     def get_permissions(self):
