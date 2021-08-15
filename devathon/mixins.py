@@ -1,7 +1,8 @@
 class ActionPermission:
     def get_permissions(self):
         return [
-            permission() for permission in self.permission_classes.get(self.action, [])
+            permission()
+            for permission in self.action_permission_classes.get(self.action, [])
         ]
 
 

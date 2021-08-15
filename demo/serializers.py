@@ -1,15 +1,25 @@
 from rest_framework import serializers
 from taggit_serializer.serializers import TagListSerializerField, TaggitSerializer
 from .models import Comment, Demo, DemoImage, Emoji
-from accounts.serializers import TeamSerializer
+from accounts.serializers import TeamSerializer, UserSerializer
 from accounts.models import Team
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    writer = UserSerializer()
+
     class Meta:
         model = Comment
         fields = "__all__"
-        read_only_fields = ["id", "created_at", "updated_at"]
+        read_only_fields = ["id", "writer", "demo" "created_at", "updated_at"]
+
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+    writer = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Comment
+        fields = ["demo", "contents"]
 
 
 class EmojiSerializer(serializers.ModelSerializer):

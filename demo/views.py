@@ -6,6 +6,7 @@ from devathon.mixins import ActionPermission, ActionSerializer
 
 from .models import Demo, DemoImage, Comment, Emoji
 from .serializers import (
+    CommentCreateSerializer,
     DemoCreateSerializer,
     DemoImageSerializer,
     DemoSerializer,
@@ -30,7 +31,7 @@ class DemoViewSet(ModelViewSet, ActionPermission, ActionSerializer):
     serializer_classes = {
         "create": DemoCreateSerializer,
     }
-    permission_classes = {
+    action_permission_classes = {
         "list": [],
         "create": [],
         "retreive": [],
@@ -46,10 +47,13 @@ class DemoImageView(CreateAPIView):
     lookup_field = "id"
 
 
-class CommentViewSet(ModelViewSet, ActionPermission):
+class CommentViewSet(ModelViewSet, ActionPermission, ActionSerializer):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = {
+    serializer_classes = {
+        "create": CommentCreateSerializer,
+    }
+    action_permission_classes = {
         "list": [],
         "create": [],
         "retreive": [],
@@ -61,7 +65,7 @@ class CommentViewSet(ModelViewSet, ActionPermission):
 class EmojiViewSet(ModelViewSet, ActionPermission):
     queryset = Emoji.objects.all()
     serializer_class = EmojiSerializer
-    permission_classes = {
+    action_permission_classes = {
         "list": [],
         "create": [],
         "retreive": [],

@@ -27,7 +27,7 @@ class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.CreateModel
 class TeamViewSet(ModelViewSet, ActionPermission):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
-    permission_classes = {
+    action_permission_classes = {
         "list": [],
         "create": [IsAdminUser],
         "retreive": [],
