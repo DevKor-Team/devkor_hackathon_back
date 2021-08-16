@@ -67,6 +67,12 @@ class CommentViewSet(ActionModelViewSet):
         comment.like(request.user)
         return self.retrieve(request, *args, **kwargs)
 
+    @decorators.action(detail=True, methods=["POST"])
+    def dislike(self, request, *args, **kwargs):
+        comment = self.get_object()
+        comment.dislike(request.user)
+        return self.retrieve(request, *args, **kwargs)
+
 
 class EmojiViewSet(ActionModelViewSet):
     queryset = Emoji.objects.all()
