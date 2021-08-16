@@ -90,6 +90,10 @@ class Comment(models.Model):
     def dislikes(self):
         return self.dislikers.count()
 
+    def like(self, user):
+        self.likers.add(user)
+        self.save()
+
 
 class EmojiTypes(models.TextChoices):
     LIKE = "LK", "좋아요"
