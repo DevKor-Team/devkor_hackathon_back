@@ -77,6 +77,28 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    likers = models.ManyToManyField(User, related_name="liked_comments", blank=True)
+    dislikers = models.ManyToManyField(
+        User, related_name="disliked_comments", blank=True
+    )
+
+    @property
+    def likes(self):
+        return self.likers.count()
+
+    @property
+    def dislikes(self):
+        return self.dislikers.count()
+
+    def like(self, user):
+        self.dislikers.remove(user)
+        self.likers.add(user)
+        self.save()
+
+    def dislike(self, user):
+        self.likers.remove(user)
+        self.dislikers.add(user)
+        self.save()
 
 
 class EmojiTypes(models.TextChoices):

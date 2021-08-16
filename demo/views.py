@@ -1,3 +1,4 @@
+from rest_framework import decorators
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAdminUser
 
@@ -59,6 +60,18 @@ class CommentViewSet(ActionModelViewSet):
         "update": [IsCommentWriter],
         "destroy": [IsCommentWriter],
     }
+
+    @decorators.action(detail=True, methods=["POST"])
+    def like(self, request, *args, **kwargs):
+        comment = self.get_object()
+        comment.like(request.user)
+        return self.retrieve(request, *args, **kwargs)
+
+    @decorators.action(detail=True, methods=["POST"])
+    def dislike(self, request, *args, **kwargs):
+        comment = self.get_object()
+        comment.dislike(request.user)
+        return self.retrieve(request, *args, **kwargs)
 
 
 class EmojiViewSet(ActionModelViewSet):
