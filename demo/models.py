@@ -82,6 +82,14 @@ class Comment(models.Model):
         User, related_name="disliked_comments", blank=True
     )
 
+    @property
+    def likes(self):
+        return self.likers.count()
+
+    @property
+    def dislikes(self):
+        return self.dislikers.count()
+
 
 class EmojiTypes(models.TextChoices):
     LIKE = "LK", "좋아요"

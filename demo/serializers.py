@@ -10,7 +10,16 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = "__all__"
+        fields = [
+            "id",
+            "writer",
+            "demo",
+            "content",
+            "created_at",
+            "updated_at",
+            "likes",
+            "dislikes",
+        ]
         read_only_fields = ["id", "writer", "demo" "created_at", "updated_at"]
 
 
@@ -19,7 +28,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ["demo", "contents"]
+        fields = ["writer", "demo", "content"]
 
 
 class EmojiSerializer(serializers.ModelSerializer):
@@ -45,7 +54,6 @@ class DemoCreateSerializer(DemoSerializer):
     team = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all())
 
     def create(self, validated_data):
-        print(validated_data)
         if validated_data["team"].leader == self.context["request"].user:
             return Demo.objects.create(**validated_data)
         else:
