@@ -45,10 +45,16 @@ class DemoCreateSerializer(DemoSerializer):
     team = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all())
 
     def create(self, validated_data):
+        print(validated_data)
         if validated_data["team"].leader == self.context["request"].user:
             return Demo.objects.create(**validated_data)
         else:
             raise serializers.ValidationError("Only team leader can register")
+
+    class Meta:
+        model = Demo
+        fields = "__all__"
+        read_only_fields = ["id", "created_at", "updated_at"]
 
 
 class DemoImageSerializer(serializers.ModelSerializer):

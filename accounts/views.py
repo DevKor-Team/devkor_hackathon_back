@@ -1,10 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 from rest_framework.views import APIView
 from rest_framework import decorators, mixins
 
-from devathon.mixins import ActionPermission
+from devathon.viewsets import ActionModelViewSet
 
 from accounts.models import User, Profile, Team
 from accounts.serializers import (
@@ -24,7 +24,7 @@ class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.CreateModel
         return self.queryset.filter(user=self.request.user)
 
 
-class TeamViewSet(ModelViewSet, ActionPermission):
+class TeamViewSet(ActionModelViewSet):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
     action_permission_classes = {

@@ -1,8 +1,7 @@
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAdminUser
-from rest_framework.viewsets import ModelViewSet
 
-from devathon.mixins import ActionPermission, ActionSerializer
+from devathon.viewsets import ActionModelViewSet
 
 from .models import Demo, DemoImage, Comment, Emoji
 from .serializers import (
@@ -23,7 +22,7 @@ from .permissions import (
 )
 
 
-class DemoViewSet(ModelViewSet, ActionPermission, ActionSerializer):
+class DemoViewSet(ActionModelViewSet):
     pagination_class = DemoPagination
     filterset_class = DemoFilter
     queryset = Demo.objects.all()
@@ -47,7 +46,7 @@ class DemoImageView(CreateAPIView):
     lookup_field = "id"
 
 
-class CommentViewSet(ModelViewSet, ActionPermission, ActionSerializer):
+class CommentViewSet(ActionModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     serializer_classes = {
@@ -62,7 +61,7 @@ class CommentViewSet(ModelViewSet, ActionPermission, ActionSerializer):
     }
 
 
-class EmojiViewSet(ModelViewSet, ActionPermission):
+class EmojiViewSet(ActionModelViewSet):
     queryset = Emoji.objects.all()
     serializer_class = EmojiSerializer
     action_permission_classes = {
