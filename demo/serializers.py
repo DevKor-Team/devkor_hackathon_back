@@ -28,7 +28,8 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ["writer", "demo", "content"]
+        fields = ["id", "writer", "demo", "content", "created_at"]
+        read_only_fields = ["id", "created_at"]
 
 
 class EmojiSerializer(serializers.ModelSerializer):
