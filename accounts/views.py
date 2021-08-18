@@ -31,6 +31,7 @@ class TeamViewSet(ActionModelViewSet):
         "list": [],
         "create": [IsAdminUser],
         "retreive": [],
+        "partial_update": [IsMyTeam],
         "update": [IsMyTeam],
         "destroy": [IsAdminUser],
         "token": [IsMyTeam | IsAdminUser],

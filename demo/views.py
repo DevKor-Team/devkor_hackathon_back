@@ -35,6 +35,7 @@ class DemoViewSet(ActionModelViewSet):
         "list": [],
         "create": [],
         "retreive": [],
+        "partial_update": [IsDemoTeamLeader],
         "update": [IsDemoTeamLeader],
         "destroy": [IsDemoTeamLeader | IsAdminUser],
     }
@@ -57,6 +58,7 @@ class CommentViewSet(ActionModelViewSet):
         "list": [],
         "create": [],
         "retreive": [],
+        "partial_update": [IsCommentWriter],
         "update": [IsCommentWriter],
         "destroy": [IsCommentWriter],
     }
@@ -81,6 +83,7 @@ class EmojiViewSet(ActionModelViewSet):
         "list": [],
         "create": [],
         "retreive": [],
+        "partial_update": [IsEmojiWriter],
         "update": [IsEmojiWriter],
         "destroy": [IsEmojiWriter],
     }
