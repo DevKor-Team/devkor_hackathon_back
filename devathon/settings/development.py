@@ -18,3 +18,4 @@ client_encoding = "UTF8"
 default_transaction_isolation = "read committed"
 
 INTERNAL_IPS = ["127.0.0.1"]
+LOGIN_REDIRECT_URL = "http://localhost:3000/"

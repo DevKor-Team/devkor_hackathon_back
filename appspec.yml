@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/hackathon/back
+hooks:
+  BeforeInstall:
+    - location: build/scripts/BeforeInstall.sh
+      timeout: 300
+      runas: ec2-user
+  AfterInstall:
+    - location: build/scripts/AfterInstall.sh
+      timeout: 1800
+      runas: ec2-user
+  ApplicationStart:
+    - location: build/scripts/ApplicationStart.sh
+      timeout: 300
+      runas: ec2-user
+  # ApplicationStop:
+  #   - location: scripts/ApplicationStop.sh
+  #     timeout: 300
+  #     runas: ec2-user

@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]  # no domain yet
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ORIGIN_WHITELIST = []
@@ -17,5 +17,7 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+LOGIN_REDIRECT_URL = "/"
 
 MIDDLEWARE = [*MIDDLEWARE, "django.middleware.csrf.CsrfViewMiddleware"]
