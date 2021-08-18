@@ -67,6 +67,9 @@ class Demo(models.Model):
         through=TaggedDemo,
     )
 
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class DemoImage(models.Model):
     demo = models.ForeignKey(Demo, on_delete=models.CASCADE)
@@ -83,6 +86,9 @@ class Comment(models.Model):
     dislikers = models.ManyToManyField(
         User, related_name="disliked_comments", blank=True
     )
+
+    class Meta:
+        ordering = ["-created_at"]
 
     @property
     def likes(self):
