@@ -39,7 +39,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ["id", "name", "users", "leader"]
+        fields = ["id", "name", "users", "leader", "demo"]
 
     def create(self, validated_data):
         team = Team(**validated_data)

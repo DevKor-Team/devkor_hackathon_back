@@ -49,7 +49,9 @@ class TechStackTaggedDemo(TaggedItemBase):
 
 
 class Demo(models.Model):
-    team = models.OneToOneField(Team, on_delete=models.CASCADE, unique=True)
+    team = models.OneToOneField(
+        Team, on_delete=models.CASCADE, related_name="demo", unique=True
+    )
     title = models.CharField(max_length=128)
     sub_title = models.CharField(max_length=128, null=True, blank=True)
     thumbnail = models.ImageField(upload_to="images/")
