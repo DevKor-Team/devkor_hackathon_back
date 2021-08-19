@@ -1,0 +1,35 @@
+version: 0.2
+
+run-as: root
+
+proxy:
+  upload-artifacts: yes
+  logs: yes
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+    commands:
+      - git clone https://github.com/DevKor-Team/devkor_hackathon_front
+  pre_build:
+    commands:
+      - REPO=792939917746.dkr.ecr.ap-northeast-2.amazonaws.com/devkor-hackathon-back
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=release
+      - docker pull $REPO:latest || true
+  build:
+    commands:
+      - docker build . -t devkor-hackathon-back -f build/app/Dockerfile
+      - docker tag devkor-hackathon-back:latest $REPO:latest
+      - docker tag devkor-hackathon-back:latest $REPO:$IMAGE_TAG
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPO:latest
+      - docker push $REPO:$IMAGE_TAG
