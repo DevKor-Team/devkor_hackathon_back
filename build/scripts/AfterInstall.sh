@@ -1,2 +1,1 @@
-docker build -f /home/ec2-user/hackathon/back/build/app/Dockerfile /home/ec2-user/hackathon/back -t hackathon-back:latest
-sudo cp /home/ec2-user/hackathon/back/build/nginx/hackathon.conf /etc/nginx/conf.d
+docker rmi -f $(docker images -f dangling=true -q)

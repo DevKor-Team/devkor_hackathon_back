@@ -1,0 +1,4 @@
+[submodule "devkor_hackathon_front"]
+	path = devkor_hackathon_front
+	url = https://github.com/DevKor-Team/devkor_hackathon_front
+	branch = master

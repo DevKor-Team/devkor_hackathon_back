@@ -17,7 +17,7 @@ services:
     container_name: devkor-hackathon-front
     image: devkor-hackathon-front
     build:
-      context: ../../devkor_hackathon_front
+      context: ../devkor_hackathon_front
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
