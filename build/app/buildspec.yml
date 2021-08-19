@@ -14,22 +14,29 @@ phases:
       - git clone https://github.com/DevKor-Team/devkor_hackathon_front
   pre_build:
     commands:
-      - REPO=792939917746.dkr.ecr.ap-northeast-2.amazonaws.com/devkor-hackathon-back
+      - REPO_BACK=792939917746.dkr.ecr.ap-northeast-2.amazonaws.com/devkor-hackathon-back
+      - REPO_FRONT=792939917746.dkr.ecr.ap-northeast-2.amazonaws.com/devkor-hackathon-front
       - echo Logging in to Amazon ECR...
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=release
-      - docker pull $REPO:latest || true
+      - docker pull $REPO_BACK:latest || true
+      - docker pull $REPO_FRONT:latest || true
   build:
     commands:
       - docker build . -t devkor-hackathon-back -f build/app/Dockerfile
-      - docker tag devkor-hackathon-back:latest $REPO:latest
-      - docker tag devkor-hackathon-back:latest $REPO:$IMAGE_TAG
+      - docker tag devkor-hackathon-back:latest $REPO_BACK:latest
+      - docker tag devkor-hackathon-back:latest $REPO_BACK:$IMAGE_TAG
+      - docker build ./devkor_hackathon_front -t devkor-hackathon-front -f ./devkor_hackathon_front/Dockerfile
+      - docker tag devkor-hackathon-front:latest $REPO_FRONT:latest
+      - docker tag devkor-hackathon-front:latest $REPO_FRONT:$IMAGE_TAG
+
 
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - docker push $REPO:latest
-      - docker push $REPO:$IMAGE_TAG
+      - docker push $REPO_BACK:latest
+      - docker push $REPO_BACK:$IMAGE_TAG
+      - docker push $REPO_FRONT:latest
+      - docker push $REPO_FRONT:$IMAGE_TAG
