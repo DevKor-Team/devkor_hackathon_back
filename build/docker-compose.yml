@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  devkor-hackathon-back:
+    container_name: devkor-hackathon-back
+    image: devkor-hackathon-back
+    build:
+      context: ..
+      dockerfile: ./build/app/Dockerfile
+    volumes:
+      - ../static/:/app/static
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+  devkor-hackathon-front:
+    container_name: devkor-hackathon-front
+    image: devkor-hackathon-front
+    build:
+      context: ../../devkor_hackathon_front
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+  nginx:
+    container_name: devkor-hackathon-nginx
+    image: nginx
+    volumes:
+      - ../static/:/static
+      - ./nginx/hackathon.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    links:
+      - devkor-hackathon-back
+      - devkor-hackathon-front
+    depends_on:
+      - devkor-hackathon-back
