@@ -28,3 +28,9 @@ phases:
       - echo Pushing the Docker images...
       - docker push $REPO_BACK:latest
       - docker push $REPO_BACK:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"hackathon-backend","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+
+artifacts:
+  files: 
+    - imagedefinitions.json
