@@ -62,6 +62,8 @@ class CommentViewSet(ActionModelViewSet):
         "partial_update": [IsCommentWriter],
         "update": [IsCommentWriter],
         "destroy": [IsCommentWriter],
+        "like": [],
+        "dislike": [],
     }
 
     @decorators.action(detail=True, methods=["POST"])
