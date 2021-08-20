@@ -55,3 +55,4 @@ class Profile(models.Model):
     bio = models.TextField(
         default="The best developer in the infinite universe.", blank=True
     )
+    profile_img = models.ImageField(upload_to="profile_img", blank=True)
