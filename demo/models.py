@@ -119,13 +119,19 @@ class Comment(models.Model):
         return self.dislikers.count()
 
     def like(self, user):
-        self.dislikers.remove(user)
-        self.likers.add(user)
+        if user in self.likers.all():
+            self.likers.remove(user)
+        else:
+            self.dislikers.remove(user)
+            self.likers.add(user)
         self.save()
 
     def dislike(self, user):
-        self.likers.remove(user)
-        self.dislikers.add(user)
+        if user in self.dislikers.all():
+            self.dislikers.remove(user)
+        else:
+            self.likers.remove(user)
+            self.dislikers.add(user)
         self.save()
 
 
