@@ -39,11 +39,12 @@ class DemoViewSet(ActionModelViewSet):
         "partial_update": [IsDemoTeamLeader],
         "update": [IsDemoTeamLeader],
         "destroy": [IsDemoTeamLeader | IsAdminUser],
+        "emoji": [],
     }
 
     @decorators.action(detail=True, methods=["POST"])
     def emoji(self, request, *args, **kwargs):
-        typ = request.POST.get("typ", None)
+        typ = request.data.get("typ", None)
         demo = self.get_object()
         demo.leave_emoji(request.user, typ)
         return self.retrieve(request, *args, **kwargs)
