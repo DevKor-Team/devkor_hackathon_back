@@ -70,6 +70,26 @@ class Demo(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
+    @property
+    def like_count(self):
+        return self.emojis.filter(typ="LK").count()
+
+    @property
+    def wow_count(self):
+        return self.emojis.filter(typ="WW").count()
+
+    @property
+    def fire_count(self):
+        return self.emojis.filter(typ="FR").count()
+
+    @property
+    def fun_count(self):
+        return self.emojis.filter(typ="FN").count()
+
+    @property
+    def sad_count(self):
+        return self.emojis.filter(typ="SD").count()
+
 
 class DemoImage(models.Model):
     demo = models.ForeignKey(Demo, on_delete=models.CASCADE)
