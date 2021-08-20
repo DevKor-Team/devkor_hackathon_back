@@ -47,7 +47,24 @@ class DemoSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = Demo
-        fields = "__all__"
+        fields = [
+            "id",
+            "team",
+            "title",
+            "sub_title",
+            "thumbnail",
+            "desc",
+            "created_at",
+            "updated_at",
+            "tech_stacks",
+            "tags",
+            "comments",
+            "like_count",
+            "wow_count",
+            "fire_count",
+            "fun_count",
+            "sad_count",
+        ]
         read_only_fields = ["id", "created_at", "updated_at"]
 
 
