@@ -43,7 +43,7 @@ class DemoViewSet(ActionModelViewSet):
 
     @decorators.action(detail=True, methods=["POST"])
     def emoji(self, request, *args, **kwargs):
-        typ = request.GET.get("typ", None)
+        typ = request.POST.get("typ", None)
         demo = self.get_object()
         demo.leave_emoji(request.user, typ)
         return self.retrieve(request, *args, **kwargs)
