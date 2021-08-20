@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from taggit_serializer.serializers import TagListSerializerField, TaggitSerializer
-from .models import Comment, Demo, DemoImage, Emoji
+from .models import Comment, Demo, DemoImage, Emoji, TechStackTag
 from accounts.serializers import TeamSerializer, UserSerializer
 from accounts.models import Team
 
@@ -28,7 +28,8 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ["writer", "demo", "content"]
+        fields = ["id", "writer", "demo", "content", "created_at"]
+        read_only_fields = ["id", "created_at"]
 
 
 class EmojiSerializer(serializers.ModelSerializer):
@@ -46,24 +47,7 @@ class DemoSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = Demo
-        fields = [
-            "id",
-            "team",
-            "title",
-            "sub_title",
-            "thumbnail",
-            "desc",
-            "created_at",
-            "updated_at",
-            "tech_stacks",
-            "tags",
-            "comments",
-            "like_count",
-            "wow_count",
-            "fire_count",
-            "fun_count",
-            "sad_count",
-            ]
+        fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at"]
 
 
@@ -85,4 +69,10 @@ class DemoCreateSerializer(DemoSerializer):
 class DemoImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = DemoImage
+        fields = "__all__"
+
+
+class TechStackTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TechStackTag
         fields = "__all__"

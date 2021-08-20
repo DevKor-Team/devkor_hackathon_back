@@ -1,10 +1,10 @@
 from rest_framework import decorators
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAdminUser
 
 from devathon.viewsets import ActionModelViewSet
 
-from .models import Demo, DemoImage, Comment, Emoji
+from .models import Demo, DemoImage, Comment, Emoji, TechStackTag
 from .serializers import (
     CommentCreateSerializer,
     DemoCreateSerializer,
@@ -12,6 +12,7 @@ from .serializers import (
     DemoSerializer,
     CommentSerializer,
     EmojiSerializer,
+    TechStackTagSerializer,
 )
 from .filters import DemoFilter
 from .paginations import DemoPagination
@@ -87,3 +88,9 @@ class EmojiViewSet(ActionModelViewSet):
         "update": [IsEmojiWriter],
         "destroy": [IsEmojiWriter],
     }
+
+
+class TechStackTagView(ListAPIView):
+    queryset = TechStackTag.objects.all()
+    serializer_class = TechStackTagSerializer
+    permission_classes = []

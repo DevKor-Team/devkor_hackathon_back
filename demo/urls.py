@@ -10,4 +10,5 @@ router.register("emoji", views.EmojiViewSet)
 urlpatterns = [
     path("", include(router.urls)),
     path("image", views.DemoImageView.as_view()),
+    path("tags", views.TechStackTagView.as_view()),
 ]
