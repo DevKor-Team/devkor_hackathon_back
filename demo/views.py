@@ -1,8 +1,9 @@
 from rest_framework import decorators
 from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.mixins import DestroyModelMixin, ListModelMixin
 from rest_framework.permissions import IsAdminUser
 
-from devathon.viewsets import ActionModelViewSet
+from devathon.viewsets import ActionModelViewSet, ActionViewSet
 
 from .models import Demo, DemoImage, Comment, Emoji, TechStackTag
 from .serializers import (
@@ -14,7 +15,7 @@ from .serializers import (
     EmojiSerializer,
     TechStackTagSerializer,
 )
-from .filters import DemoFilter
+from .filters import DemoFilter, EmojiFilter
 from .paginations import DemoPagination
 from .permissions import (
     IsEmojiWriter,
@@ -34,12 +35,18 @@ class DemoViewSet(ActionModelViewSet):
     }
     action_permission_classes = {
         "list": [],
-        "create": [],
         "retreive": [],
         "partial_update": [IsDemoTeamLeader],
         "update": [IsDemoTeamLeader],
         "destroy": [IsDemoTeamLeader | IsAdminUser],
     }
+
+    @decorators.action(detail=True, methods=["POST"])
+    def emoji(self, request, *args, **kwargs):
+        typ = request.GET.get("typ", None)
+        demo = self.get_object()
+        demo.leave_emoji(request.user, typ)
+        return self.retrieve(request, *args, **kwargs)
 
 
 class DemoImageView(CreateAPIView):
@@ -79,17 +86,17 @@ class CommentViewSet(ActionModelViewSet):
         return self.retrieve(request, *args, **kwargs)
 
 
-class EmojiViewSet(ActionModelViewSet):
+class EmojiViewSet(ActionViewSet, ListModelMixin, DestroyModelMixin):
     queryset = Emoji.objects.all()
+    filterset_class = EmojiFilter
     serializer_class = EmojiSerializer
     action_permission_classes = {
         "list": [],
-        "create": [],
-        "retreive": [],
-        "partial_update": [IsEmojiWriter],
-        "update": [IsEmojiWriter],
         "destroy": [IsEmojiWriter],
     }
+
+    def get_queryset(self):
+        return self.queryset.filter(writer=self.request.user)
 
 
 class TechStackTagView(ListAPIView):

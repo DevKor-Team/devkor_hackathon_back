@@ -90,6 +90,16 @@ class Demo(models.Model):
     def sad_count(self):
         return self.emojis.filter(typ="SD").count()
 
+    def leave_emoji(self, user, typ):
+        emoji, created = Emoji.objects.get_or_create(
+            writer=user,
+            demo=self,
+            typ=typ,
+        )
+        if not created:
+            emoji.delete()
+        return emoji
+
 
 class DemoImage(models.Model):
     demo = models.ForeignKey(Demo, on_delete=models.CASCADE)
