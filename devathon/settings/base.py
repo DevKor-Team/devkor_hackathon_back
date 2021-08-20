@@ -51,6 +51,10 @@ SOCIALACCOUNT_PROVIDERS = {
             "secret": os.getenv("GOOGLE_OAUTH_SECRET"),
             "key": "",
         },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
         "FIELDS": [
             "id",
             "email",
@@ -66,8 +70,6 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
     }
 }
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = True
 
 TEMPLATES = [
     {
