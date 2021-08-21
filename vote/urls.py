@@ -1,10 +1,7 @@
-from rest_framework import routers
-from django.urls import path, include
+from django.urls import path
 from . import views
 
-router = routers.DefaultRouter()
-router.register("vote", views.VoteViewSet)
-
 urlpatterns = [
-    path("", include(router.urls)),
+    path("vote", views.VoteAPIView.as_view()),
+    path("votable", views.VotableAPIView.as_view()),
 ]
