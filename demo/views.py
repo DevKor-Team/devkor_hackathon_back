@@ -44,7 +44,12 @@ class DemoViewSet(ActionModelViewSet):
     }
 
     def get_queryset(self):
-        return self.queryset.filter(Q(show=True) | Q(team__users=self.request.user))
+        if self.request.user.is_authenticated:
+            return Demo.objects.filter(
+                Q(show=True) | Q(team__users=self.request.user)
+            ).distinct()
+        else:
+            return Demo.objects.filter(show=True)
 
     @decorators.action(detail=True, methods=["POST"])
     def emoji(self, request, *args, **kwargs):
