@@ -8,6 +8,7 @@ from demo.models import Demo
 class VoteSchedule(models.Model):
     start_at = models.DateTimeField(default=timezone.now)
     end_at = models.DateTimeField(default=timezone.now)
+    max_votes = models.SmallIntegerField(default=3)
 
     def __str__(self):
         return "{} - {}".format(self.start_at, self.end_at)
