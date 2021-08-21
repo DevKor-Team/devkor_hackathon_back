@@ -47,6 +47,9 @@ class Team(models.Model):
 
         return True
 
+    def __str__(self):
+        return self.name
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
@@ -56,3 +59,6 @@ class Profile(models.Model):
         default="The best developer in the infinite universe.", blank=True
     )
     profile_img = models.ImageField(upload_to="profile_img", blank=True)
+
+    def __str__(self):
+        return f"<{self.user.username}> {self.user.first_name} {self.user.last_name}"
