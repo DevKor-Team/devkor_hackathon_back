@@ -100,6 +100,9 @@ class Demo(models.Model):
             emoji.delete()
         return emoji
 
+    def __str__(self):
+        return f"<{self.team.name}> {self.title}"
+
 
 class DemoImage(models.Model):
     demo = models.ForeignKey(Demo, on_delete=models.CASCADE)
@@ -144,6 +147,13 @@ class Comment(models.Model):
             self.dislikers.add(user)
         self.save()
 
+    def __str__(self):
+        return (
+            f"<{self.demo.title}:{self.writer.username}> "
+            + "{:<15}".format(self.content[:15])
+            + f" ({self.created_at})"
+        )
+
 
 class EmojiTypes(models.TextChoices):
     LIKE = "LK", "좋아요"
@@ -160,3 +170,8 @@ class Emoji(models.Model):
         max_length=2, choices=EmojiTypes.choices, default=EmojiTypes.LIKE
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return (
+            f"<{self.demo.title}:{self.writer.username}> {self.typ} ({self.created_at})"
+        )
