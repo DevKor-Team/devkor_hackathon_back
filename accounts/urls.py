@@ -4,6 +4,7 @@ from django.urls import path, include
 from . import views
 
 router = routers.DefaultRouter()
+router.register("user", views.UserViewSet)
 router.register("profile", views.ProfileViewSet)
 router.register("team", views.TeamViewSet)
 
