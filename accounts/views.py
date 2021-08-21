@@ -12,13 +12,13 @@ from accounts.serializers import (
     ProfileSerializer,
     TeamSerializer,
 )
-from accounts.permissions import IsMyTeam
+from accounts.permissions import IsMyTeam, IsMyProfile
 
 
 class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.CreateModelMixin):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsMyProfile]
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
