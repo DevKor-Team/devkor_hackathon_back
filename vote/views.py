@@ -10,7 +10,8 @@ class VoteAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        req_votes = request.data
+        team_id = request.data.get("team")
+        demo_ids = request.data.get("demo", [])
         schedule = VoteSchedule.currently()
 
         if not schedule:
@@ -18,17 +19,17 @@ class VoteAPIView(APIView):
                 {"error": "No vote schedule is currently active."}, status=400
             )
 
-        if schedule.max_votes != len(req_votes):
+        if schedule.max_votes != len(demo_ids):
             return Response({"error": "Too many or less votes."}, status=400)
 
         votes = [
             {
-                "team": vote.get("team"),
-                "demo": vote.get("demo"),
+                "team": team_id,
+                "demo": demo_id,
                 "priority": i + 1,
                 "schedule": schedule.id,
             }
-            for i, vote in enumerate(req_votes)
+            for i, demo_id in enumerate(demo_ids)
         ]
 
         serializer = VoteSerializer(data=votes, many=True, context={"request": request})
