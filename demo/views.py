@@ -74,7 +74,6 @@ class CommentViewSet(ActionModelViewSet):
     }
     action_permission_classes = {
         "list": [],
-        "create": [],
         "retreive": [],
         "partial_update": [IsCommentWriter],
         "update": [IsCommentWriter],
