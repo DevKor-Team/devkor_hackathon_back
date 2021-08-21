@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import decorators
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.mixins import DestroyModelMixin, ListModelMixin
@@ -41,6 +42,9 @@ class DemoViewSet(ActionModelViewSet):
         "destroy": [IsDemoTeamLeader | IsAdminUser],
         "emoji": [],
     }
+
+    def get_queryset(self):
+        return self.queryset.filter(Q(show=True) | Q(team__users=self.request.user))
 
     @decorators.action(detail=True, methods=["POST"])
     def emoji(self, request, *args, **kwargs):

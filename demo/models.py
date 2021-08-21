@@ -54,7 +54,7 @@ class Demo(models.Model):
     )
     title = models.CharField(max_length=128)
     sub_title = models.CharField(max_length=128, null=True, blank=True)
-    thumbnail = models.ImageField(upload_to="images/")
+    thumbnail = models.ImageField(upload_to="images/", default="images/default.png")
     desc = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -66,6 +66,7 @@ class Demo(models.Model):
         blank=True,
         through=TaggedDemo,
     )
+    show = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-created_at"]
