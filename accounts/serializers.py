@@ -34,7 +34,7 @@ class UserSerializer(UserListSerializer):
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    users = UserListSerializer(many=True, read_only=True)
+    users = UserSerializer(many=True, read_only=True)
     leader = UserSerializer()
 
     class Meta:
