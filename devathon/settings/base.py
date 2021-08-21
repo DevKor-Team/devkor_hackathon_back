@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "taggit",  # tag
     "taggit_serializer",
     "demo.apps.DemoConfig",
+    "vote.apps.VoteConfig",
     "django_filters",
 ]
 
