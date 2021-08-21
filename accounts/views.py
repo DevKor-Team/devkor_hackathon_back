@@ -15,6 +15,12 @@ from accounts.serializers import (
 from accounts.permissions import IsMyTeam, IsMyProfile
 
 
+class UserViewSet(GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = []
+
+
 class ProfileViewSet(GenericViewSet, mixins.UpdateModelMixin, mixins.CreateModelMixin):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
