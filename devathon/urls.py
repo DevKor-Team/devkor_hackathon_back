@@ -9,4 +9,5 @@ urlpatterns = [
     path("api/oauth/", include("allauth.urls")),
     path("api/account/", include("accounts.urls")),
     path("api/demo/", include("demo.urls")),
+    path("api/vote/", include("vote.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

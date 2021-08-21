@@ -64,6 +64,7 @@ class DemoSerializer(TaggitSerializer, serializers.ModelSerializer):
             "fire_count",
             "fun_count",
             "sad_count",
+            "show",
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
 

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import decorators
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.mixins import DestroyModelMixin, ListModelMixin
@@ -42,6 +43,14 @@ class DemoViewSet(ActionModelViewSet):
         "emoji": [],
     }
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Demo.objects.filter(
+                Q(show=True) | Q(team__users=self.request.user)
+            ).distinct()
+        else:
+            return Demo.objects.filter(show=True)
+
     @decorators.action(detail=True, methods=["POST"])
     def emoji(self, request, *args, **kwargs):
         typ = request.data.get("typ", None)
@@ -65,7 +74,6 @@ class CommentViewSet(ActionModelViewSet):
     }
     action_permission_classes = {
         "list": [],
-        "create": [],
         "retreive": [],
         "partial_update": [IsCommentWriter],
         "update": [IsCommentWriter],

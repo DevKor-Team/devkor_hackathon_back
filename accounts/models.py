@@ -12,6 +12,7 @@ from accounts.services import no_padding_b64encode, no_padding_b64decode
 User = get_user_model()
 
 
+# TODO team year
 class Team(models.Model):
     name = models.CharField(max_length=128, unique=True)
     users = models.ManyToManyField(User, related_name="teams")
@@ -46,6 +47,9 @@ class Team(models.Model):
             return False
 
         return True
+
+    def voted(self, schedule):
+        return self.votes.filter(schedule=schedule).count() >= schedule.max_votes
 
     def __str__(self):
         return self.name
