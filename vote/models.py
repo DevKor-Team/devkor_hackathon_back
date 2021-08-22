@@ -28,7 +28,7 @@ class VoteSchedule(models.Model):
     @staticmethod
     def past():
         return VoteSchedule.objects.filter(
-            end_at__gte=timezone.now(),
+            end_at__lte=timezone.now(),
         )
 
     def get_result(self):
@@ -36,7 +36,10 @@ class VoteSchedule(models.Model):
         scorings = Scoring.objects.filter(schedule=self)
         result = {}
 
-        scores = [{scoring.priority: scoring.score} for scoring in scorings]
+        scores = {}
+
+        for scoring in scorings:
+            scores[scoring.priority] = scoring.score
 
         for vote in votes:
             score = scores[vote.priority]
@@ -44,6 +47,7 @@ class VoteSchedule(models.Model):
             if team not in result:
                 result[team] = 0
             result[team] += score
+
         return result
 
 
