@@ -17,7 +17,6 @@ from .serializers import (
     TechStackTagSerializer,
 )
 from .filters import DemoFilter, EmojiFilter
-from .paginations import DemoPagination
 from .permissions import (
     IsEmojiWriter,
     IsImageOfMyDemo,
@@ -27,7 +26,6 @@ from .permissions import (
 
 
 class DemoViewSet(ActionModelViewSet):
-    pagination_class = DemoPagination
     filterset_class = DemoFilter
     queryset = Demo.objects.all()
     serializer_class = DemoSerializer
