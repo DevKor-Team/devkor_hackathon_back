@@ -25,6 +25,28 @@ class VoteSchedule(models.Model):
         else:
             return None
 
+    @staticmethod
+    def past():
+        return VoteSchedule.objects.filter(
+            end_at__gte=timezone.now(),
+        )
+
+    def get_result(self):
+        votes = Vote.objects.filter(schedule=self)
+        result = {}
+        for vote in votes:
+            team = vote.demo.team.name
+            if team not in result:
+                result[vote.team.name] = 0
+            result[vote.team.name] += 1
+        return result
+
+
+class Scoring(models.Model):
+    schedule = models.ForeignKey(VoteSchedule, on_delete=models.CASCADE)
+    priority = models.SmallIntegerField(default=0)
+    score = models.IntegerField(default=0)
+
 
 class Vote(models.Model):
     team = models.ForeignKey(Team, related_name="votes", on_delete=models.CASCADE)
