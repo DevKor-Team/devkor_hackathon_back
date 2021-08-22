@@ -14,6 +14,9 @@ class VoteAPIView(APIView):
         demo_ids = request.data.get("demo", [])
         schedule = VoteSchedule.currently()
 
+        if schedule.is_test and not request.user.is_staff:
+            return Response({"detail": "Test voting is not allowed."}, status=403)
+
         if not schedule:
             return Response(
                 {"error": "No vote schedule is currently active."}, status=400
@@ -48,6 +51,9 @@ class VotableAPIView(APIView):
         schedule = VoteSchedule.currently()
 
         if not schedule:
+            return self.get_response(False)
+
+        if schedule.is_test and not request.user.is_staff:
             return self.get_response(False)
 
         # TODO team year
