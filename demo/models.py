@@ -106,7 +106,6 @@ class Demo(models.Model):
 
 
 class DemoImage(models.Model):
-    demo = models.ForeignKey(Demo, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images/")
 
 
