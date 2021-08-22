@@ -43,9 +43,14 @@ class VoteSchedule(models.Model):
 
 
 class Scoring(models.Model):
-    schedule = models.ForeignKey(VoteSchedule, on_delete=models.CASCADE)
+    schedule = models.ForeignKey(
+        VoteSchedule, related_name="scoring", on_delete=models.CASCADE
+    )
     priority = models.SmallIntegerField(default=0)
     score = models.IntegerField(default=0)
+
+    def __str__(self):
+        return "{} - {}".format(self.schedule, self.priority)
 
 
 class Vote(models.Model):
