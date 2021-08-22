@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -62,3 +62,18 @@ class VotableAPIView(APIView):
                 return self.get_response(True)
 
         return self.get_response(False)
+
+
+class VoteResultAPIView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, *args, **kwargs):
+        schedule = VoteSchedule.past()
+
+        if schedule.count() < 1:
+            return Response({"error": "No past vote schedule."}, status=404)
+
+        if not request.user.is_staff:
+            return Response({"error": "No permission."}, status=403)
+
+        return Response(schedule.last().get_result())
