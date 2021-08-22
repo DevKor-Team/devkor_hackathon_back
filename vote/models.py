@@ -33,12 +33,17 @@ class VoteSchedule(models.Model):
 
     def get_result(self):
         votes = Vote.objects.filter(schedule=self)
+        scorings = Scoring.objects.filter(schedule=self)
         result = {}
+
+        scores = [{scoring.priority: scoring.score} for scoring in scorings]
+
         for vote in votes:
+            score = scores[vote.priority]
             team = vote.demo.team.name
             if team not in result:
-                result[vote.team.name] = 0
-            result[vote.team.name] += 1
+                result[team] = 0
+            result[team] += score
         return result
 
 
